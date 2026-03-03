@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Code as File</title>
+<style>
+body { font-family: Arial,sans-serif; padding: 20px; background: #f4f4f4; }
+textarea { width: 100%; height: 200px; font-family: monospace; margin-bottom: 10px; }
+input, button { width: 100%; padding: 10px; margin: 5px 0; }
+</style>
+</head>
+<body>
+
+<h2>Code to File</h2>
+<textarea id="code" placeholder="Paste your code here..."></textarea>
+<input type="text" id="filename" placeholder="Enter filename with extension (e.g., index.html)">
+<button onclick="downloadFile()">Download File</button>
+
+<script>
+function downloadFile() {
+    const code = document.getElementById('code').value;
+    const filename = document.getElementById('filename').value.trim();
+    if(!code || !filename) {
+        alert('Please enter both code and filename!');
+        return;
+    }
+
+    // Create a temporary link for download
+    const a = document.createElement('a');
+    const file = new Blob([code], {type: 'text/plain'});
+
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+
+    // Cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    alert(`File "${filename}" downloaded!`);
+}
+</script>
+
+</body>
+</html>
